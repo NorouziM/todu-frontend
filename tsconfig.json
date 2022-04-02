@@ -1,6 +1,18 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "baseUrl": "./",
+    "paths": {
+      "@hooks/*": ["hooks/*"],
+      "@state/*": ["state/*"],
+      "@config/*": ["app/config/*"],
+      "@pages/*": ["pages/*"],
+      "@contexts/*": ["app/contexts/*"],
+      "@utils/*": ["utils/*"],
+      "@components/*": ["components/*"],
+      "@layouts*": ["layouts/*"],
+      "@locales*": ["locales/*"],
+  },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,6 +27,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "contexts/JWTContext.js", "hooks/useLocales.js", "pages/_document.tsx"],
   "exclude": ["node_modules"]
 }
