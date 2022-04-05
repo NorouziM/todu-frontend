@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
+import axiosInstance from '../utils/axios';
+import { toast } from '@chakra-ui/react';
 
 // ----------------------------------------------------------------------
 
@@ -22,8 +24,8 @@ enum EActionTypes {
 interface IAction {
   type: EActionTypes;
   payload: {
-    user ?: any;
-    isAuthenticated : boolean;
+    user?: any;
+    isAuthenticated: boolean;
   };
 }
 
@@ -47,7 +49,7 @@ const AuthContext: Context<any> = createContext({
   register: () => Promise.resolve(),
 });
 
-const handlers:IHandlers = {
+const handlers: IHandlers = {
   INITIALIZE: (state: IState, action: IAction) => {
     const { isAuthenticated, user } = action.payload;
     return {
@@ -66,12 +68,12 @@ const handlers:IHandlers = {
       user,
     };
   },
-  LOGOUT: (state:IState) => ({
+  LOGOUT: (state: IState) => ({
     ...state,
     isAuthenticated: false,
     user: null,
   }),
-  REGISTER: (state: IState, action: IAction ) => {
+  REGISTER: (state: IState, action: IAction) => {
     const { user } = action.payload;
 
     return {
@@ -82,7 +84,8 @@ const handlers:IHandlers = {
   },
 };
 
-const reducer = (state: IState, action: IAction) => (handlers[action.type] ? handlers[action.type](state, action) : state);
+const reducer = (state: IState, action: IAction) =>
+  handlers[action.type] ? handlers[action.type](state, action) : state;
 
 // ----------------------------------------------------------------------
 
@@ -96,13 +99,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
+        const accessToken = window.localStorage.getItem('jwt_token');
 
         if (accessToken && isValidToken(accessToken)) {
-          setSession(accessToken);
+          await setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
+          const { data: responseUserData } = await axiosInstance.get(
+            'api/v1/auth/me'
+          );
+          const { user } = responseUserData.data;
 
           dispatch({
             type: EActionTypes.INITIALIZE,
@@ -136,13 +141,18 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post('/api/account/login', {
+    const { data: response } = await axios.post('/api/v1/auth/login', {
       email,
       password,
     });
-    const { accessToken, user } = response.data;
+    const { token } = response.data;
+    await setSession(token);
 
-    setSession(accessToken);
+    const { data: responseUserData } = await axiosInstance.get(
+      '/api/v1/auth/me'
+    );
+    const { user } = responseUserData.data;
+
     dispatch({
       type: EActionTypes.LOGIN,
       payload: {
@@ -152,7 +162,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const register = async (email: string, password: string, firstName: string, lastName: string) => {
+  const register = async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) => {
     const response = await axios.post('/api/account/register', {
       email,
       password,
@@ -161,7 +176,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     });
     const { accessToken, user } = response.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
+    window.localStorage.setItem('jwt_token', accessToken);
     dispatch({
       type: EActionTypes.REGISTER,
       payload: {
@@ -173,19 +188,21 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     setSession(null);
-    dispatch({ type: EActionTypes.LOGOUT, payload: {isAuthenticated: false} });
+    dispatch({
+      type: EActionTypes.LOGOUT,
+      payload: { isAuthenticated: false },
+    });
   };
 
   return (
     <AuthContext.Provider
       value={{
         ...state,
-        method: 'jwt',
         login,
         logout,
         register,
       }}
->
+    >
       {children}
     </AuthContext.Provider>
   );
