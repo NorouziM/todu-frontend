@@ -105,8 +105,6 @@ const App = () => {
     }
   }, [isAuthenticated, push, toast, trans.youSuccessfullySignedUp]);
 
-  console.log(errors, ' erros');
-
   return (
     <LoginGaurd>
       <Layout varient="general">
@@ -196,8 +194,9 @@ const App = () => {
                       render={({ field, fieldState: { error } }) => (
                         <InputGroup>
                           <Input
+                            p={4}
                             {...field}
-                            type="password"
+                            type={isShowPass ? 'text' : 'password'}
                             placeholder={trans.password}
                             isRequired
                             isInvalid={!!error}

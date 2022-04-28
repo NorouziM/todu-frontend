@@ -127,6 +127,7 @@ const App = () => {
                     render={({ field, fieldState: { error } }) => (
                       <InputGroup>
                         <Input
+                          p={4}
                           {...field}
                           type={isShowPass ? 'text' : 'password'}
                           placeholder={trans.password}
