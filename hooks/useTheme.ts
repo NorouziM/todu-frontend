@@ -6,7 +6,7 @@ import {
   ComponentStyleConfig,
 } from '@chakra-ui/react';
 // components
-import { Box, Button, Input } from '@components/ChakraComponents';
+import { Box, Button, Input, Link } from '@components/ChakraComponents';
 // utils
 import useLocales from '@hooks/useLocales';
 
@@ -22,12 +22,14 @@ const useTheme = () => {
 
   const fonts = {
     body: 'Todu Yekan',
+    heading: 'Todu Yekan',
   };
 
   const colors = {
     black: '#101015',
-    dark: { 100: '#2C363F', 200: '#252E36', 300: '1F272E', 400: '#171D22' },
-    lightDark: { 100: '#393346', 200: '#322D3E', 300: '#2E2939' },
+    text: '#1f3247',
+    dark: '#1F2229',
+    lightDark: '#2A2E38',
     primary: {
       main: '#E75A7C',
       '50': '#FCE9ED',
@@ -48,18 +50,6 @@ const useTheme = () => {
       400: '#F2F5EA',
       500: '#FFFFEA',
     },
-    red: {
-      50: '#FFE6E5',
-      100: '#FFB9B8',
-      200: '#FF8C8A',
-      300: '#FF5F5C',
-      400: '#FF322E',
-      500: '#FF0500',
-      600: '#CC0400',
-      700: '#990300',
-      800: '#660200',
-      900: '#330100',
-    },
   };
 
   const layerStyle = {
@@ -67,7 +57,7 @@ const useTheme = () => {
       borderColor: 'primary.100',
     },
     selected: {
-      bg: 'primary.300',
+      bg: 'primary.main',
       color: 'light.200',
     },
   };
@@ -83,7 +73,13 @@ const useTheme = () => {
   const styles = {
     global: (props: any) => ({
       'h1,h2,h3,h4,p': {
-        color: props.colorMode === 'dark' ? 'light.500' : 'dark.100',
+        color: props.colorMode === 'dark' ? 'light.200' : 'text',
+      },
+      '.chakra-input': {
+        borderRadius: '0.5rem',
+      },
+      'a,.chakra-link ': {
+        color: 'primary.main',
       },
     }),
   };
@@ -92,8 +88,8 @@ const useTheme = () => {
     colors: {
       error: 'red.500',
       text: {
-        default: 'primary.900',
-        _dark: 'primary.50',
+        default: 'text',
+        _dark: 'light.200',
       },
     },
   };
@@ -105,7 +101,6 @@ const useTheme = () => {
       fonts,
       fontSizes,
       colors,
-      styles,
       layerStyle,
       boxShadows: {
         lg: '0px 10px 100px -30px rgb(44, 54, 63, 1)',
@@ -114,10 +109,12 @@ const useTheme = () => {
         Box,
         Button,
         Input,
+        Link,
       },
       semanticTokens,
-    }
-    // withDefaultColorScheme({ colorScheme: 'primary' })
+      styles,
+    },
+    withDefaultColorScheme({ colorScheme: 'primary' })
   );
 
   return { theme };

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 // next
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -10,11 +11,18 @@ import { Chakra } from 'components/Chakra';
 // utils
 import { RtlProvider } from '@utils/rtl-provider';
 import fetcher from '@utils/fetcher';
+import axiosInstance from '@utils/axios';
 // context
 import { AuthProvider } from '@contexts/JWTContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { trans } = useLocales();
+  const { currentLang, nextLang, trans } = useLocales();
+
+  useEffect(() => {
+    document.body.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+    axiosInstance.defaults.headers.common['accept-language'] =
+      currentLang as string;
+  }, [currentLang]);
 
   return (
     <>

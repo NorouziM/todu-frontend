@@ -13,12 +13,12 @@ import useTheme from '@hooks/useTheme';
 // utils
 import Fonts from '@components/Fonts';
 
-interface CustomChakraProviderProps extends ChakraProviderProps {
+interface ICustomChakraProviderProps extends ChakraProviderProps {
   children: ReactNode;
   cookies: any;
 }
 
-export const Chakra: FC<CustomChakraProviderProps> = ({
+export const Chakra: FC<ICustomChakraProviderProps> = ({
   cookies,
   children,
   ...other

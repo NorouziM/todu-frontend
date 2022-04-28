@@ -1,8 +1,11 @@
-import { ReactElement, useEffect, useState } from 'react';
-import { Flex, Heading } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import useAuth from '@hooks/useAuth';
+import { ReactElement } from 'react';
+// chakra
+import { Box, Flex } from '@chakra-ui/react';
+// guards
 import AuthGuard from '@guards/AuthGuard';
+// components
+import Header from '@components/Header';
+import Sidebar from '@components/Sidebar';
 
 type TVarient = 'dashboard' | 'general';
 
@@ -14,7 +17,8 @@ type Props = {
 const Layout = ({ children, varient = 'dashboard', ...props }: Props) => {
   if (varient === 'general')
     return (
-      <AuthGuard>
+      <Box>
+        <Header />
         <Flex
           flexDirection="column"
           width="100wh"
@@ -24,20 +28,14 @@ const Layout = ({ children, varient = 'dashboard', ...props }: Props) => {
         >
           {children}
         </Flex>
-      </AuthGuard>
+      </Box>
     );
   else
     return (
       <AuthGuard>
-        <Flex
-          direction="column"
-          maxW={{ xl: '1200px' }}
-          m="0 auto"
-          p={6}
-          {...props}
-        >
-          {children}
-        </Flex>
+        <Box>
+          <Sidebar>{children}</Sidebar>
+        </Box>
       </AuthGuard>
     );
 };

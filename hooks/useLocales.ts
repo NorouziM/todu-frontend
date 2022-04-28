@@ -1,12 +1,16 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import en from '@locales/en';
 import fa from '@locales/fa';
 
 const useLocales = () => {
-  const { locale: currentLang, locales: allLangs, defaultLocale: defaultLang } = useRouter();
+  const {
+    locale: currentLang,
+    locales: allLangs,
+    defaultLocale: defaultLang,
+  } = useRouter();
 
   const nextLang = currentLang === 'en' ? 'fa' : 'en';
-  
+
   const trans = currentLang === 'en' ? en : fa;
 
   return {
@@ -14,8 +18,8 @@ const useLocales = () => {
     allLangs,
     defaultLang,
     nextLang,
-    trans
-  }
-}
+    trans,
+  };
+};
 
 export default useLocales;

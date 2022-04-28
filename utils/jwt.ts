@@ -24,9 +24,6 @@ const setSession = async (accessToken: string | null) => {
   if (accessToken) {
     localStorage.setItem('jwt_token', accessToken);
     axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    // This function below will handle when token is expired
-    // const { exp } = jwtDecode(accessToken);
-    // handleTokenExpired(exp);
   } else {
     localStorage.removeItem('jwt_token');
     delete axiosInstance.defaults.headers.common.Authorization;

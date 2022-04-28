@@ -5,12 +5,21 @@ import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 import axiosInstance from '../utils/axios';
 import { toast } from '@chakra-ui/react';
+import _ from 'lodash';
 
 // ----------------------------------------------------------------------
 
+export interface IUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  dateAdded: string;
+  avatarUrl: string;
+}
 interface IState {
   isAuthenticated: boolean;
-  user: any;
+  user: IUser | null | undefined;
   isInitialized: boolean;
 }
 
@@ -24,7 +33,7 @@ enum EActionTypes {
 interface IAction {
   type: EActionTypes;
   payload: {
-    user?: any;
+    user?: IUser | null | undefined;
     isAuthenticated: boolean;
   };
 }
@@ -108,6 +117,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
             'api/v1/auth/me'
           );
           const { user } = responseUserData.data;
+          user.firstName = _.startCase(user.firstName);
+          user.lastName = _.startCase(user.lastName);
 
           dispatch({
             type: EActionTypes.INITIALIZE,
@@ -152,6 +163,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       '/api/v1/auth/me'
     );
     const { user } = responseUserData.data;
+    user.firstName = _.startCase(user.firstName);
+    user.lastName = _.startCase(user.lastName);
 
     dispatch({
       type: EActionTypes.LOGIN,
@@ -166,17 +179,28 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    phoneNumber?: string
   ) => {
-    const response = await axios.post('/api/account/register', {
+    const { data: response } = await axios.post('/api/v1/auth/register', {
       email,
       password,
       firstName,
       lastName,
+      ...(phoneNumber && { phoneNumber }),
     });
-    const { accessToken, user } = response.data;
+    const { token } = response.data;
 
-    window.localStorage.setItem('jwt_token', accessToken);
+    await setSession(token);
+
+    const { data: responseUserData } = await axiosInstance.get(
+      '/api/v1/auth/me'
+    );
+    const { user } = responseUserData.data;
+
+    user.firstName = _.startCase(user.firstName);
+    user.lastName = _.startCase(user.lastName);
+
     dispatch({
       type: EActionTypes.REGISTER,
       payload: {
