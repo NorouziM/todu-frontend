@@ -16,38 +16,41 @@ import {
   FlexProps,
 } from '@chakra-ui/react';
 // icons
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-} from 'react-icons/fi';
+import { MdDashboard, MdCollections } from 'react-icons/md';
 import { IconType } from 'react-icons';
 // hooks
 import useCommonStyles from '@hooks/useCommonStyles';
 import useLocales from '@hooks/useLocales';
 // components
 import Header from './Header';
+import { useRouter } from 'next/router';
+import { getGreetingText } from '@utils/helpers';
+import useAuth from '@hooks/useAuth';
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  href: string;
 }
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
-];
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { pathname } = useRouter();
   const { bg } = useCommonStyles();
+  const { trans } = useLocales();
+
+  const LinkItems: Array<LinkItemProps> = [
+    { name: trans.dashboard, icon: MdDashboard, href: `dashboard` },
+    {
+      name: trans.collections,
+      icon: MdCollections,
+      href: `collections`,
+    },
+  ];
   return (
     <Box minH="100vh" bg={bg} w={'full'}>
       <SidebarContent
+        LinkItems={LinkItems}
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
@@ -61,17 +64,17 @@ export default function Sidebar({ children }: { children: ReactNode }) {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} LinkItems={LinkItems} />
         </DrawerContent>
       </Drawer>
       <Box ml={{ base: 0, md: 60 }}>
-        <Header />
+        <Header isDashboard={true} />
         <Flex
           direction="column"
-          maxW={{ xl: '1300px' }}
+          maxW={{ xl: '1100px' }}
           m="0 auto"
-          px={{ base: 5, md: 8, lg: 12, xl: 14 }}
-          py={6}
+          px={{ base: 5, md: 10, xl: 12 }}
+          py={12}
         >
           {children}
         </Flex>
@@ -82,16 +85,18 @@ export default function Sidebar({ children }: { children: ReactNode }) {
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
+  LinkItems: Array<LinkItemProps>;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  const { text, sidebarBg } = useCommonStyles();
+const SidebarContent = ({ LinkItems, onClose, ...rest }: SidebarProps) => {
+  const { text, lighterBg } = useCommonStyles();
   const { trans } = useLocales();
+  const { user } = useAuth();
 
   return (
     <Box
       transition="0.3s ease"
-      bg={sidebarBg}
+      bg={lighterBg}
       shadow="md"
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.100', 'gray.900')}
@@ -100,21 +105,24 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex
+        h="24"
+        alignItems="center"
+        my="8"
+        justifyContent="start"
+        direction={'column'}
+      >
         <Link href={'/'} passHref>
-          <Text
-            cursor={'pointer'}
-            color={text}
-            fontSize="2xl"
-            fontFamily="monospace"
-            fontWeight="bold"
-          >
+          <Text cursor={'pointer'} color={text} fontSize="2xl" fontWeight="900">
             {trans.todu}
           </Text>
         </Link>
+        <Text color={text} fontSize="lg" mt={'1'}>{`${
+          trans[getGreetingText()]
+        } ${user.firstName}!`}</Text>
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
@@ -124,40 +132,47 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
+  href: string;
   children: ReactText;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
+  const { pathname } = useRouter();
+  const { text } = useCommonStyles();
   return (
-    <ChakraLink
-      href="#"
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}
+    <Link href={href} passHref>
+      <ChakraLink
+        style={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}
       >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </ChakraLink>
+        <Flex
+          align="center"
+          p="4"
+          mx="4"
+          my="4"
+          borderRadius="lg"
+          bg={(pathname.includes(href) && 'primary.400') || 'transparent'}
+          color={(pathname.includes(href) && 'white') || text}
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: 'primary.600',
+            color: 'white',
+          }}
+          {...rest}
+        >
+          {icon && (
+            <Icon
+              mr="4"
+              fontSize="16"
+              _groupHover={{
+                color: 'white',
+              }}
+              as={icon}
+            />
+          )}
+          {children}
+        </Flex>
+      </ChakraLink>
+    </Link>
   );
 };

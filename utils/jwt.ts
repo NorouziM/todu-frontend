@@ -23,6 +23,8 @@ const isValidToken = (accessToken: string) => {
 const setSession = async (accessToken: string | null) => {
   if (accessToken) {
     localStorage.setItem('jwt_token', accessToken);
+    console.log('set');
+
     axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem('jwt_token');

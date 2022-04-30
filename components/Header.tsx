@@ -56,17 +56,19 @@ export default function Header({ isDashboard }: IProps) {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isAuthenticated, user, logout }: IAuthData = useAuth();
   const { pathname, push } = useRouter();
-  const { text, bg, textDark } = useCommonStyles();
+  const { text, bg, textDark, lighterBg } = useCommonStyles();
+
+  const logoTextAlign = useBreakpointValue({ base: 'center', md: 'left' });
 
   const NAV_ITEMS: Array<INavItem> = [
-    {
-      label: trans.overview,
-      href: '#',
-    },
-    {
-      label: trans.collections,
-      href: '#',
-    },
+    ...(isAuthenticated
+      ? [
+          {
+            label: trans.dashboard,
+            href: '/dashboard',
+          },
+        ]
+      : []),
   ];
 
   const handleClickLogOut = () => {
@@ -77,7 +79,7 @@ export default function Header({ isDashboard }: IProps) {
   return (
     <Box w={'full'}>
       <Flex
-        bg={bg}
+        bg={lighterBg}
         color={text}
         minH={'60px'}
         w={'full'}
@@ -100,18 +102,25 @@ export default function Header({ isDashboard }: IProps) {
             aria-label={'Toggle Navigation'}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={text}
-          >
-            Logo
-          </Text>
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav navItems={NAV_ITEMS} />
-          </Flex>
+        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+          {!isDashboard && (
+            <>
+              <Text
+                /* @ts-ignore */
+                textAlign={logoTextAlign || 'center'}
+                fontFamily={'heading'}
+                fontSize={['xl', '2xl']}
+                color={textDark}
+              >
+                {trans.todu.toUpperCase()}
+              </Text>
+
+              <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+                <DesktopNav navItems={NAV_ITEMS} />
+              </Flex>
+            </>
+          )}
         </Flex>
 
         <Stack
@@ -217,7 +226,7 @@ const DesktopNav = ({ navItems }: IDesProps) => {
   const linkHoverColor = useColorModeValue('gray.800', 'light.100');
 
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack direction={'row'} spacing={4} alignItems={'center'}>
       {navItems.map((navItem) => (
         <Box key={navItem.label}>
           <Link href={navItem.href} passHref>

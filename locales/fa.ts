@@ -36,6 +36,14 @@ const fa = {
   phoneNumber: 'شماره موبایل',
   youSuccessfullySignedIn: 'با موفقیت وارد شدید. در حال انتقال ...',
   youSuccessfullySignedUp: 'با موفقیت ثبت نام کردید. در حال انتقال ...',
+  dashboard: 'داشبورد',
+  goodMorning: 'صبح بخیر',
+  goodAfternoon: 'ظهر بخیر',
+  goodEvening: 'عصر بخیر',
+  today: 'امروز',
+  next7Days: 'تا 7 روز آینده',
+  inbox: 'صندوق',
+  goToCollection: 'برو به مجموعه',
 };
 
 export default fa;

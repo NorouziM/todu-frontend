@@ -22,7 +22,7 @@ const Layout = ({ children, varient = 'dashboard', ...props }: Props) => {
         <Flex
           flexDirection="column"
           width="100wh"
-          height="100vh"
+          height="90vh"
           justifyContent="center"
           alignItems="center"
         >

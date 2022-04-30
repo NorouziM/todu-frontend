@@ -36,6 +36,14 @@ const en = {
   phoneNumber: 'Phone number',
   youSuccessfullySignedUp: 'You successfully signed up, Redirecting...',
   youSuccessfullySignedIn: 'You successfully signed in, Redirecting...',
+  dashboard: 'Dashboard',
+  goodMorning: 'Good morning',
+  goodAfternoon: 'Good afternoon',
+  goodEvening: 'Good evening',
+  today: 'Today',
+  next7Days: 'Next 7 days',
+  inbox: 'Inbox',
+  goToCollection: 'Go to collection',
 };
 
 export default en;
