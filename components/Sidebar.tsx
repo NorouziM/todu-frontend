@@ -26,19 +26,14 @@ import Header from './Header';
 import { useRouter } from 'next/router';
 import { getGreetingText } from '@utils/helpers';
 import useAuth from '@hooks/useAuth';
-
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-  href: string;
-}
+import MobileNav from './MobileNav';
+import { LinkItemProps } from '@utils/interfaces';
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { pathname } = useRouter();
   const { bg } = useCommonStyles();
   const { trans } = useLocales();
-
   const LinkItems: Array<LinkItemProps> = [
     { name: trans.dashboard, icon: MdDashboard, href: `dashboard` },
     {
@@ -47,8 +42,9 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       href: `collections`,
     },
   ];
+
   return (
-    <Box minH="100vh" bg={bg} w={'full'}>
+    <Box minH="100vh" bg={bg} w={'full'} position="relative">
       <SidebarContent
         LinkItems={LinkItems}
         onClose={() => onClose}
@@ -69,6 +65,8 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       </Drawer>
       <Box ml={{ base: 0, md: 60 }}>
         <Header isDashboard={true} />
+        <MobileNav />
+
         <Flex
           direction="column"
           maxW={{ xl: '1100px' }}

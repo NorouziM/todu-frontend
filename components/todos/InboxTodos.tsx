@@ -6,7 +6,7 @@ import { useCollections } from '@hooks/useSWRActions';
 // utils
 import { ICollectionData } from '@utils/interfaces';
 
-const TodayTodos = () => {
+const InboxTodos = () => {
   const { data: collections } = useCollections();
 
   const [collectionIndexes, setCollectionIndexes] =
@@ -27,7 +27,7 @@ const TodayTodos = () => {
           (collection: ICollectionData, index: number) => (
             <CollectionBox
               key={collection._id}
-              dateType="today"
+              dateType="inbox"
               collection={collection}
               collectionIndexes={collectionIndexes}
             />
@@ -37,4 +37,4 @@ const TodayTodos = () => {
   );
 };
 
-export default TodayTodos;
+export default InboxTodos;

@@ -1,4 +1,5 @@
 import { IUser } from '@contexts/JWTContext';
+import { IconType } from 'react-icons';
 
 export interface IAuthData {
   isAuthenticated: boolean;
@@ -14,22 +15,18 @@ export interface IAuthData {
     phoneNumber?: string
   ) => Promise<void>;
 }
-export interface IDueDate {
-  data?: any;
-}
 
 export interface ITodo {
-  dueDate: IDueDate;
   _id: string;
   title: string;
   content: string;
   dateCompleted?: any;
   isDone: boolean;
+  dueDate: Date | null;
   userId: string;
-  collectionId: string;
-  collectionName: string;
+  collectionId: string | null;
+  collectionName: string | null;
   dateAdded: Date;
-  __v: number;
 }
 
 export interface ICollectionData {
@@ -41,4 +38,10 @@ export interface ICollectionData {
   doneTodos: number;
   todos: ITodo[];
   dateAdded: Date;
+}
+
+export interface LinkItemProps {
+  name: string;
+  icon: IconType;
+  href: string;
 }

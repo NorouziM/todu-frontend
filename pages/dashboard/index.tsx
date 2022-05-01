@@ -1,5 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import TodayTodos from '@components/todos/todayTodos';
+import InboxTodos from '@components/todos/InboxTodos';
+import TodayTodos from '@components/todos/TodayTodos';
+import WeekTodos from '@components/todos/WeekTodos';
 import useCommonStyles from '@hooks/useCommonStyles';
 import useLocales from '@hooks/useLocales';
 import DashboardLayout from '@layouts/DashboardLayout';
@@ -10,6 +12,7 @@ const DashboardHome = () => {
   const { trans } = useLocales();
   const { text, boxBg, textLight } = useCommonStyles();
   const tabs = [trans.today, trans.next7Days, trans.inbox];
+
   return (
     <Layout>
       <DashboardLayout title={trans.dashboard}>
@@ -28,17 +31,21 @@ const DashboardHome = () => {
                 w="32"
                 color={textLight}
                 _selected={{ bgColor: boxBg, color: text }}
+                _focus={{ boxShadow: '0 0 0 4px rgba(65, 64, 82, 0.4)' }}
               >
                 {tab}
               </Tab>
             ))}
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel px={0}>
               <TodayTodos />
             </TabPanel>
-            <TabPanel>
-              <p>two!</p>
+            <TabPanel px={0}>
+              <WeekTodos />
+            </TabPanel>
+            <TabPanel px={0}>
+              <InboxTodos />
             </TabPanel>
           </TabPanels>
         </Tabs>

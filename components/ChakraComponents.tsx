@@ -48,7 +48,10 @@ export const Button: ComponentStyleConfig = {
 
 export const Input: ComponentStyleConfig = {
   defaultProps: {
-    focusBorderColor: 'primary.200',
+    focusBorderColor: 'gray.500',
+    borderRadius: 'lg',
+
+    focusBoxShadow: 'none',
   },
 };
 

@@ -44,6 +44,11 @@ const en = {
   next7Days: 'Next 7 days',
   inbox: 'Inbox',
   goToCollection: 'Go to collection',
+  operationnWasSuccessful: 'Operation was successful',
+  addTodo: 'Add todo',
+  close: 'Close',
+  description: 'Description',
+  cancel: 'Cancel',
 };
 
 export default en;

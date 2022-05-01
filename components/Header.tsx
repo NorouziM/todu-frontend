@@ -27,10 +27,10 @@ import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
   MoonIcon,
   SunIcon,
 } from '@chakra-ui/icons';
+
 // hooks
 import useLocales from '@hooks/useLocales';
 import useAuth from '@hooks/useAuth';
@@ -38,6 +38,7 @@ import useCommonStyles from '@hooks/useCommonStyles';
 // utils
 import { PATH_AUTH } from '@utils/paths';
 import { IAuthData } from '@utils/interfaces';
+import AddTodoBtn from './AddTodoBtn';
 
 interface IProps {
   isDashboard?: boolean;
@@ -85,6 +86,7 @@ export default function Header({ isDashboard }: IProps) {
         w={'full'}
         py={{ base: 3 }}
         px={{ base: 3, md: 10 }}
+        pl={{ md: isDashboard ? 4 : 10 }}
         shadow="md"
         align={'center'}
       >
@@ -105,22 +107,19 @@ export default function Header({ isDashboard }: IProps) {
 
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           {!isDashboard && (
-            <>
-              <Text
-                /* @ts-ignore */
-                textAlign={logoTextAlign || 'center'}
-                fontFamily={'heading'}
-                fontSize={['xl', '2xl']}
-                color={textDark}
-              >
-                {trans.todu.toUpperCase()}
-              </Text>
-
-              <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-                <DesktopNav navItems={NAV_ITEMS} />
-              </Flex>
-            </>
+            <Text
+              /* @ts-ignore */
+              textAlign={logoTextAlign || 'center'}
+              fontFamily={'heading'}
+              fontSize={['xl', '2xl']}
+              color={textDark}
+            >
+              {trans.todu.toUpperCase()}
+            </Text>
           )}
+          <Flex display={{ base: 'none', md: 'flex' }}>
+            <DesktopNav navItems={NAV_ITEMS} isDashboard={!!isDashboard} />
+          </Flex>
         </Flex>
 
         <Stack
@@ -219,33 +218,50 @@ export default function Header({ isDashboard }: IProps) {
 
 interface IDesProps {
   navItems: Array<INavItem>;
+  isDashboard: boolean;
 }
 
-const DesktopNav = ({ navItems }: IDesProps) => {
+const DesktopNav = ({ navItems, isDashboard }: IDesProps) => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'light.100');
 
   return (
-    <Stack direction={'row'} spacing={4} alignItems={'center'}>
-      {navItems.map((navItem) => (
-        <Box key={navItem.label}>
-          <Link href={navItem.href} passHref>
-            <ChakraLink
-              p={2}
-              href={navItem.href ?? '#'}
-              fontSize={'sm'}
-              fontWeight={500}
-              color={linkColor}
-              _hover={{
-                textDecoration: 'none',
-                color: linkHoverColor,
-              }}
-            >
-              {navItem.label}
-            </ChakraLink>
-          </Link>
+    <Stack
+      direction={'row'}
+      alignItems={'center'}
+      justifyContent={'space-between'}
+    >
+      {!isDashboard &&
+        navItems.map((navItem) => (
+          <>
+            <Box key={navItem.label}>
+              <Link href={navItem.href} passHref>
+                <ChakraLink
+                  p={2}
+                  href={navItem.href ?? '#'}
+                  fontSize={'sm'}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: 'none',
+                    color: linkHoverColor,
+                  }}
+                >
+                  {navItem.label}
+                </ChakraLink>
+              </Link>
+            </Box>
+          </>
+        ))}
+      {isDashboard && (
+        <Box
+          display={{ base: 'none', md: 'flex' }}
+          justifyContent={'flex-start'}
+          m={0}
+        >
+          <AddTodoBtn />
         </Box>
-      ))}
+      )}
     </Stack>
   );
 };

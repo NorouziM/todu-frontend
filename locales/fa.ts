@@ -44,6 +44,11 @@ const fa = {
   next7Days: 'تا 7 روز آینده',
   inbox: 'صندوق',
   goToCollection: 'برو به مجموعه',
+  operationnWasSuccessful: 'عملیات با موفقیت انجام شد',
+  addTodo: 'افزودن تسک',
+  close: 'بستن',
+  description: 'توضیحات',
+  cancel: 'لغو',
 };
 
 export default fa;

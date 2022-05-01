@@ -13,12 +13,14 @@ import {
 } from '@chakra-ui/react';
 // hooks
 import useLocales from '@hooks/useLocales';
+import useAuth from '@hooks/useAuth';
 // layout
 import Layout from '@layouts/Layout';
+// components
 import { Illustration } from '@components/HomeIllustration';
-import { IAuthData } from '@utils/interfaces';
-import useAuth from '@hooks/useAuth';
+// utils
 import { PATH_AUTH, PATH_DASHBOARD } from '@utils/paths';
+import { IAuthData } from '@utils/interfaces';
 
 const Home: NextPage = () => {
   const { pathname } = useRouter();
@@ -36,6 +38,7 @@ const Home: NextPage = () => {
         >
           <Heading
             fontWeight={600}
+            mt={10}
             fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}
           >

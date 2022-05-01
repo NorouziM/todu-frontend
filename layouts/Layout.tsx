@@ -6,6 +6,7 @@ import AuthGuard from '@guards/AuthGuard';
 // components
 import Header from '@components/Header';
 import Sidebar from '@components/Sidebar';
+import MobileNav from '@components/MobileNav';
 
 type TVarient = 'dashboard' | 'general';
 
@@ -20,9 +21,10 @@ const Layout = ({ children, varient = 'dashboard', ...props }: Props) => {
       <Box>
         <Header />
         <Flex
+          py={5}
           flexDirection="column"
           width="100wh"
-          height="90vh"
+          height="82vh"
           justifyContent="center"
           alignItems="center"
         >

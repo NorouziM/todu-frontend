@@ -9,24 +9,47 @@ import {
   Box,
   Flex,
   Icon,
+  Divider,
 } from '@chakra-ui/react';
 import useCommonStyles from '@hooks/useCommonStyles';
 import useLocales from '@hooks/useLocales';
 import { useCollections } from '@hooks/useSWRActions';
-import { ICollectionData } from '@utils/interfaces';
+import { ICollectionData, ITodo } from '@utils/interfaces';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import useSWR from 'swr';
+import Todo from './Todo';
 
-const CollectionBox = () => {
-  const { data: collections, isLoading } = useCollections();
+interface IProps {
+  dateType: 'today' | 'next7Days' | 'inbox';
+  collection: ICollectionData;
+  collectionIndexes: Array<number> | null;
+}
+
+const CollectionBox = ({ dateType, collection, collectionIndexes }: IProps) => {
+  const { data: todos, mutate } = useSWR(
+    `api/v1/todos/${collection._id}?type=${dateType}`
+  );
   const { trans, currentLang } = useLocales();
   const { boxBg, lighterBg, darkBoxBg, textDark, text } = useCommonStyles();
+
   return (
-    <Accordion defaultIndex={[0, 1]} allowMultiple allowToggle>
-      {collections ? (
-        collections.data.collections.map(
-          (collection: ICollectionData, index: number) => (
+    <>
+      {!collectionIndexes && (
+        <Accordion
+          defaultIndex={collectionIndexes ?? [0]}
+          allowMultiple
+          allowToggle
+        >
+          <AccordionItem mb={10} border={0} borderWidth={0}>
+            <Skeleton height="200px" borderRadius={'lg'} />
+          </AccordionItem>
+        </Accordion>
+      )}
+      {collectionIndexes && (
+        <Accordion defaultIndex={collectionIndexes} allowMultiple allowToggle>
+          {collection ? (
             <AccordionItem
               key={collection._id}
               mb={10}
@@ -43,19 +66,24 @@ const CollectionBox = () => {
                 borderColor={'transparent'}
               >
                 <Box flex={1}>
-                  <Text textAlign={'left'}>{collection.title}</Text>
+                  <Text textAlign={'left'} fontSize={'lg'} fontWeight="900">
+                    {collection.title}
+                  </Text>
                 </Box>
 
                 <AccordionIcon />
               </AccordionButton>
-              <AccordionPanel py={7} bgColor={lighterBg}>
-                <Text textAlign={'left'}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </Text>
-                <Flex justifyContent={'center'} mt={8}>
+              <AccordionPanel pt={7} pb={5} bgColor={lighterBg}>
+                {todos ? (
+                  todos.data.todos.map((todo: ITodo) => (
+                    <Todo key={todo._id} data={todo} mutate={mutate} />
+                  ))
+                ) : (
+                  <Skeleton height={'80px'} />
+                )}
+
+                <Divider mt={10} mb={4} />
+                <Flex justifyContent={'center'} alignItems="end">
                   <Link href={`/collections/${collection._id}`} passHref>
                     <Text
                       cursor={'pointer'}
@@ -83,12 +111,12 @@ const CollectionBox = () => {
                 </Flex>
               </AccordionPanel>
             </AccordionItem>
-          )
-        )
-      ) : (
-        <Skeleton height="100px" borderRadius={'lg'} />
+          ) : (
+            <Skeleton height="100px" borderRadius={'lg'} />
+          )}
+        </Accordion>
       )}
-    </Accordion>
+    </>
   );
 };
 
