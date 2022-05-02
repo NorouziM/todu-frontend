@@ -4,6 +4,8 @@ const en = {
   goToHome: 'Go to home',
   emailMustBeValid: 'Email must be a valid email address',
   emailIsRequired: 'Email is required',
+  titleIsRequired: 'Title is required',
+  collectionIsRequired: 'Collection is required',
   passwordIsRequired: 'Password is required',
   phoneNumberIsRequired: 'Phone number is required',
   firstNameIsRequired: 'First name is required',
@@ -47,8 +49,11 @@ const en = {
   operationnWasSuccessful: 'Operation was successful',
   addTodo: 'Add todo',
   close: 'Close',
-  description: 'Description',
+  description: 'Content',
   cancel: 'Cancel',
+  noCollection: 'Without collection',
+  noData: 'No data Found',
+  noDueDate: 'No Due Date',
 };
 
 export default en;

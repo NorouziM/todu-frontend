@@ -5,6 +5,7 @@ const useCommonStyles = () => {
   const lighterBg = useColorModeValue('white', 'gray.700');
   const boxBg = useColorModeValue('gray.100', 'gray.600');
   const darkBoxBg = useColorModeValue('gray.200', 'gray.500');
+  const navBg = useColorModeValue('gray.50', 'gray.700');
 
   const text = useColorModeValue('#1f3247', 'light.100');
   const textDark = useColorModeValue('#2A2E38', 'light.200');
@@ -19,6 +20,7 @@ const useCommonStyles = () => {
     boxBg,
     textLight,
     darkBoxBg,
+    navBg,
   };
 };
 

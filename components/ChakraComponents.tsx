@@ -50,8 +50,17 @@ export const Input: ComponentStyleConfig = {
   defaultProps: {
     focusBorderColor: 'gray.500',
     borderRadius: 'lg',
-
     focusBoxShadow: 'none',
+  },
+  sizes: {
+    md: {
+      height: 90,
+    },
+  },
+  baseStyle: {
+    field: {
+      py: 5,
+    },
   },
 };
 

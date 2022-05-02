@@ -8,6 +8,8 @@ const fa = {
   repeatPasswordIsRequired: 'لطفا رمز عبور را دوباره وارد کنید.',
   firstNameIsRequired: 'نام اجباری است.',
   lastNameIsRequired: 'نام خانوادگی اجباری است.',
+  collectionIsRequired: 'انتخاب مجموعه اجباری است.',
+  titleIsRequired: 'عنوان اجباری است.',
   phoneNumberIsRequired: 'شماره موبایل اجباری است.',
   passDontMatch: 'رمز عبور های وارد شده با هم مطابقت ندارند.',
   email: 'ایمیل',
@@ -47,8 +49,11 @@ const fa = {
   operationnWasSuccessful: 'عملیات با موفقیت انجام شد',
   addTodo: 'افزودن تسک',
   close: 'بستن',
-  description: 'توضیحات',
+  description: 'محتوا',
   cancel: 'لغو',
+  noCollection: 'بدون مجموعه',
+  noData: 'داده‌ای یافت نشد.',
+  noDueDate: 'بدون تاریخ انجام',
 };
 
 export default fa;

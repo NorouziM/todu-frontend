@@ -65,7 +65,9 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       </Drawer>
       <Box ml={{ base: 0, md: 60 }}>
         <Header isDashboard={true} />
-        <MobileNav />
+        <Box display={{ md: 'none' }}>
+          <MobileNav />
+        </Box>
 
         <Flex
           direction="column"

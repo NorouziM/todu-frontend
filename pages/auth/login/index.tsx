@@ -19,6 +19,7 @@ import {
   Link as ChakraLink,
   useToast,
   useBoolean,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 // form
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -55,12 +56,16 @@ const App = () => {
 
   const methods = useForm<FormData>({
     resolver: yupResolver(LoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -105,7 +110,7 @@ const App = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box p={8}>
               <Stack spacing={4}>
-                <FormControl id="email">
+                <FormControl id="email" isInvalid={!!errors.email}>
                   <Controller
                     name={'email'}
                     control={control}
@@ -114,13 +119,15 @@ const App = () => {
                         {...field}
                         type="email"
                         placeholder={trans.email}
-                        isRequired
                         isInvalid={!!error}
                       />
                     )}
                   />
+                  {errors.email && (
+                    <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+                  )}
                 </FormControl>
-                <FormControl id="password">
+                <FormControl id="password" isInvalid={!!errors.password}>
                   <Controller
                     name={'password'}
                     control={control}
@@ -131,7 +138,6 @@ const App = () => {
                           {...field}
                           type={isShowPass ? 'text' : 'password'}
                           placeholder={trans.password}
-                          isRequired
                           isInvalid={!!error}
                         />
                         {currentLang === 'en' ? (
@@ -158,6 +164,11 @@ const App = () => {
                       </InputGroup>
                     )}
                   />
+                  {errors.password && (
+                    <FormErrorMessage>
+                      {errors.password.message}
+                    </FormErrorMessage>
+                  )}
                 </FormControl>
                 <Stack spacing={10}>
                   <Stack

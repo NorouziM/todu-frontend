@@ -107,7 +107,7 @@ const Todo = ({ data, mutate }: IProps) => {
   };
 
   return (
-    <Stack direction={'row'} mb={5}>
+    <Stack direction={'row'} mb={5} zIndex={1}>
       <Checkbox
         colorScheme={data.dueDate ? getColorScheme() : 'primary'}
         alignItems={'start'}

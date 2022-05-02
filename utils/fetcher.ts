@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Fetcher } from 'swr';
 import axiosInstance from './axios';
 

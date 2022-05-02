@@ -19,6 +19,7 @@ import {
   Link as ChakraLink,
   useToast,
   useBoolean,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 // hooks
 import useAuth from '@hooks/useAuth';
@@ -122,7 +123,7 @@ const App = () => {
             <Box p={8}>
               <Stack spacing={4}>
                 <Stack spacing={4} direction={{ base: 'column', md: 'row' }}>
-                  <FormControl id="firstName">
+                  <FormControl id="firstName" isInvalid={!!errors.firstName}>
                     <Controller
                       name={'firstName'}
                       control={control}
@@ -131,13 +132,17 @@ const App = () => {
                           {...field}
                           type="text"
                           placeholder={trans.firstName}
-                          isRequired
                           isInvalid={!!error}
                         />
                       )}
                     />
+                    {errors.firstName && (
+                      <FormErrorMessage>
+                        {errors.firstName.message}
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
-                  <FormControl id="lastName">
+                  <FormControl id="lastName" isInvalid={!!errors.lastName}>
                     <Controller
                       name={'lastName'}
                       control={control}
@@ -146,15 +151,19 @@ const App = () => {
                           {...field}
                           type="text"
                           placeholder={trans.lastName}
-                          isRequired
                           isInvalid={!!error}
                         />
                       )}
                     />
+                    {errors.lastName && (
+                      <FormErrorMessage>
+                        {errors.lastName.message}
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
                 </Stack>
                 <Stack spacing={4} direction={{ base: 'column', md: 'row' }}>
-                  <FormControl id="email">
+                  <FormControl id="email" isInvalid={!!errors.email}>
                     <Controller
                       name={'email'}
                       control={control}
@@ -163,13 +172,20 @@ const App = () => {
                           {...field}
                           type="email"
                           placeholder={trans.email}
-                          isRequired
                           isInvalid={!!error}
                         />
                       )}
                     />
+                    {errors.email && (
+                      <FormErrorMessage>
+                        {errors.email.message}
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
-                  <FormControl id="phoneNumber">
+                  <FormControl
+                    id="phoneNumber"
+                    isInvalid={!!errors.phoneNumber}
+                  >
                     <Controller
                       name={'phoneNumber'}
                       control={control}
@@ -178,16 +194,20 @@ const App = () => {
                           {...field}
                           type="phoneNumber"
                           placeholder={trans.phoneNumber}
-                          isRequired
                           isInvalid={!!error}
                         />
                       )}
                     />
+                    {errors.phoneNumber && (
+                      <FormErrorMessage>
+                        {errors.phoneNumber.message}
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
                 </Stack>
 
                 <Stack spacing={4} direction={{ base: 'column', md: 'row' }}>
-                  <FormControl id="password">
+                  <FormControl id="password" isInvalid={!!errors.password}>
                     <Controller
                       name={'password'}
                       control={control}
@@ -198,7 +218,6 @@ const App = () => {
                             {...field}
                             type={isShowPass ? 'text' : 'password'}
                             placeholder={trans.password}
-                            isRequired
                             isInvalid={!!error}
                           />
                           {currentLang === 'en' ? (
@@ -225,6 +244,11 @@ const App = () => {
                         </InputGroup>
                       )}
                     />
+                    {errors.password && (
+                      <FormErrorMessage>
+                        {errors.password.message}
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
                   <FormControl id="repeatPassword">
                     <Controller
@@ -235,7 +259,6 @@ const App = () => {
                           {...field}
                           type="password"
                           placeholder={trans.repeatPassword}
-                          isRequired
                           isInvalid={!!error}
                         />
                       )}

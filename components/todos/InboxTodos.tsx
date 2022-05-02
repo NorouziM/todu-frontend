@@ -20,6 +20,7 @@ const InboxTodos = () => {
 
     setCollectionIndexes(indexes);
   }
+
   return (
     <>
       {collections &&

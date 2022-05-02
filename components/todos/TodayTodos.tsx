@@ -20,17 +20,20 @@ const TodayTodos = () => {
 
     setCollectionIndexes(indexes);
   }
+
   return (
     <>
       {collections &&
         collections.data.collections.map(
           (collection: ICollectionData, index: number) => (
-            <CollectionBox
-              key={collection._id}
-              dateType="today"
-              collection={collection}
-              collectionIndexes={collectionIndexes}
-            />
+            <>
+              <CollectionBox
+                key={collection._id}
+                dateType="today"
+                collection={collection}
+                collectionIndexes={collectionIndexes}
+              />
+            </>
           )
         )}
     </>
