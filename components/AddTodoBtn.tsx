@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -31,7 +32,11 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import useLocales from '@hooks/useLocales';
 import { createTodo } from 'network/todo';
 import { type } from 'os';
-import { getErrorMessageList, useGetOptionsArray } from '@utils/helpers';
+import {
+  getErrorMessageList,
+  mutatePartialKeys,
+  useGetOptionsArray,
+} from '@utils/helpers';
 import fa from '@locales/fa';
 import Radio from './Radio';
 import { useCollections } from '@hooks/useSWRActions';
@@ -58,7 +63,7 @@ const AddTodoBtn = ({ size }: IProps) => {
   const [noDueDate, setNoDueDate] = useState(true);
   const toast = useToast();
   const { boxBg, text } = useCommonStyles();
-  const { mutate } = useSWRConfig();
+  const { mutate, cache } = useSWRConfig();
   const options = useGetOptionsArray(
     collections ? collections.data.collections : [],
     '_id',
@@ -105,7 +110,8 @@ const AddTodoBtn = ({ size }: IProps) => {
       });
     } else {
       onClose();
-      mutate('api/v1/todos/');
+      mutatePartialKeys('api/v1/todos', cache, mutate);
+      mutatePartialKeys('api/v1/collection', cache, mutate);
 
       toast({
         title: trans.operationnWasSuccessful,
@@ -156,7 +162,7 @@ const AddTodoBtn = ({ size }: IProps) => {
                           {...field}
                           type="title"
                           placeholder={trans.title}
-                          maxLength={20}
+                          maxLength={30}
                           isInvalid={!!error}
                         />
                       )}
@@ -177,7 +183,7 @@ const AddTodoBtn = ({ size }: IProps) => {
                           type="content"
                           placeholder={trans.description}
                           isInvalid={!!error}
-                          maxLength={30}
+                          maxLength={40}
                         />
                       )}
                     />
@@ -187,6 +193,7 @@ const AddTodoBtn = ({ size }: IProps) => {
                       </FormErrorMessage>
                     )}
                   </FormControl>
+                  <Divider />
                   {collections ? (
                     <FormControl
                       id="collectionId"
@@ -209,7 +216,9 @@ const AddTodoBtn = ({ size }: IProps) => {
                     <Skeleton height={40} />
                   )}
                 </Stack>
-                <Stack mt={4} direction={'row'}>
+                <Divider my={4} />
+
+                <Stack direction={'row'}>
                   <Box>
                     <Controller
                       name={'dueDate'}

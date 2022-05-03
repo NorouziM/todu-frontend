@@ -15,6 +15,7 @@
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@hookform/resolvers": "^2.8.8",
+    "@persian-tools/persian-tools": "^3.2.1",
     "@reduxjs/toolkit": "^1.8.0",
     "axios": "^0.26.1",
     "cookies-next": "^2.0.4",

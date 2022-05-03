@@ -2,6 +2,7 @@ import useLocales from '@hooks/useLocales';
 
 export const PAGE_SIZE = 10;
 export const GET_COLLECTION_TODOS = 'getCollectionTodos';
+export const MAX_ALLOWED_COLLECTIONS = 8;
 
 /**
  *
@@ -20,6 +21,22 @@ export const getGreetingText = () => {
   return 'goodEvening';
 };
 
+export const mutatePartialKeys = (
+  partialKey: string,
+  cache: any,
+  mutate: any
+) => {
+  let keys = [];
+  for (const key of cache.keys()) {
+    if (key.includes(partialKey)) {
+      keys.push(key);
+    }
+  }
+  keys.forEach((key: string) => {
+    mutate(key);
+  });
+};
+
 /**
  *
  * @param error  error object
@@ -33,8 +50,6 @@ export const getErrorMessageList = (error: any, setError?: any) => {
   let message = '';
 
   Object.keys(error.message).forEach((key) => {
-    console.log(key, error.message[key], 'keykey');
-
     setError && setError(key, { type: 'custom', message: error.message[key] });
     if (!message) message = `${key}: ${error.message[key]}`;
   });
@@ -67,4 +82,9 @@ export const useGetOptionsArray = (
       });
     });
   return options;
+};
+
+export const getDoneTodosText = (total: number, done: number) => {
+  if (total === done) return 'allDone';
+  return `${total}/${done}`;
 };

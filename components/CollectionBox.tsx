@@ -1,3 +1,7 @@
+import React from 'react';
+// next
+import Link from 'next/link';
+// chakra
 import {
   Accordion,
   AccordionButton,
@@ -6,22 +10,24 @@ import {
   AccordionPanel,
   Text,
   Skeleton,
-  Box,
   Flex,
   Icon,
   Divider,
+  Stack,
+  Box,
 } from '@chakra-ui/react';
-import useCommonStyles from '@hooks/useCommonStyles';
-import useLocales from '@hooks/useLocales';
-import { useCollections } from '@hooks/useSWRActions';
-import fetcher from '@utils/fetcher';
-import { ICollectionData, ITodo } from '@utils/interfaces';
-import Link from 'next/link';
-import React, { useState } from 'react';
+// swr
+import useSWR, { SWRResponse } from 'swr';
+// icons
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import useSWR from 'swr';
+// components
 import NoData from './NoData';
 import Todo from './Todo';
+// hooks
+import useCommonStyles from '@hooks/useCommonStyles';
+import useLocales from '@hooks/useLocales';
+// uti;s
+import { ICollectionData } from '@utils/interfaces';
 
 interface IProps {
   dateType: 'today' | 'next7Days' | 'inbox';
@@ -30,15 +36,12 @@ interface IProps {
 }
 
 const CollectionBox = ({ dateType, collection, collectionIndexes }: IProps) => {
-  const { data: todos, mutate } = useSWR(
-    `api/v1/todos/${collection._id}?type=${dateType}`,
-    fetcher,
-    { refreshInterval: 500 }
+  const { data: todos } = useSWR<SWRResponse<ICollectionData>>(
+    `api/v1/todos/${collection._id}?type=${dateType}`
   );
 
   const { trans, currentLang } = useLocales();
   const { boxBg, navBg, darkBoxBg, textDark } = useCommonStyles();
-
   return (
     <>
       {!collectionIndexes && (
@@ -70,13 +73,29 @@ const CollectionBox = ({ dateType, collection, collectionIndexes }: IProps) => {
                 borderTopRadius={'lg'}
                 borderColor={'transparent'}
               >
-                <Box flex={1}>
+                <Stack
+                  flex={1}
+                  pr={[1, 3, 4]}
+                  justifyContent={'space-between'}
+                  direction={'row'}
+                >
                   <Text textAlign={'left'} fontSize={'lg'} fontWeight="900">
                     {collection.title === 'noCollection'
                       ? trans.noCollection
                       : collection.title}
                   </Text>
-                </Box>
+                  <Stack direction={'row'} alignItems="center">
+                    <Text textAlign={'left'} fontSize={'lg'} fontWeight="600">
+                      {collection.totalTodos !== collection.doneTodos &&
+                        `${collection.totalTodos}/${collection.doneTodos}`}
+                    </Text>
+                    <Text fontWeight="400">
+                      {collection.totalTodos !== collection.doneTodos
+                        ? trans.done
+                        : trans.allDone}
+                    </Text>
+                  </Stack>
+                </Stack>
 
                 <AccordionIcon />
               </AccordionButton>
@@ -85,9 +104,13 @@ const CollectionBox = ({ dateType, collection, collectionIndexes }: IProps) => {
                   /* @ts-ignore */
                   todos.count ? (
                     /* @ts-ignore */
-                    todos.data.todos.map((todo: ITodo) => (
-                      <Todo key={todo._id} data={todo} mutate={mutate} />
-                    ))
+                    todos.data.todos.map((todo: ITodo) => {
+                      return (
+                        <Box key={todo._id} mb={5}>
+                          <Todo data={todo} />
+                        </Box>
+                      );
+                    })
                   ) : (
                     <NoData />
                   )

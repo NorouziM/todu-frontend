@@ -40,6 +40,10 @@ export interface ICollectionData {
   dateAdded: Date;
 }
 
+export interface ICollectionSWR {
+  collection: ICollectionData;
+}
+
 export interface LinkItemProps {
   name: string;
   icon: IconType;

@@ -1,6 +1,6 @@
 import React from 'react';
 // chakra
-import { Box, HStack, useRadio, useRadioGroup } from '@chakra-ui/react';
+import { Box, Stack, useRadio, useRadioGroup } from '@chakra-ui/react';
 // hooks
 import useCommonStyles from '@hooks/useCommonStyles';
 
@@ -29,6 +29,8 @@ const CustomRadio = (props: IProps) => {
         justifyContent={'center'}
         display="flex"
         fontSize={'sm'}
+        mr={1}
+        my={1}
         _checked={{
           bg: boxBg,
           color: text,
@@ -60,7 +62,7 @@ function Radio({ options, onChange, name, defaultValue }: IRadioProps) {
   const group = getRootProps();
 
   return (
-    <HStack {...group} spacing={4}>
+    <Stack {...group} flexWrap="wrap" direction="row">
       {options.map((option: { label: string; value: string }) => {
         const radio = getRadioProps({ value: option.value });
         return (
@@ -69,7 +71,7 @@ function Radio({ options, onChange, name, defaultValue }: IRadioProps) {
           </CustomRadio>
         );
       })}
-    </HStack>
+    </Stack>
   );
 }
 export default Radio;

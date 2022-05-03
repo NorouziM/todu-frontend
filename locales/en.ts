@@ -54,6 +54,14 @@ const en = {
   noCollection: 'Without collection',
   noData: 'No data Found',
   noDueDate: 'No Due Date',
+  allDone: 'All done',
+  done: 'Done',
+  dateCreation: 'Date added',
+  addCollection: 'Add collection',
+  cantAddCollection:
+    'You have reached the maximum number of collections, Before adding a new one, you must delete one',
+  tasks: 'Tasks',
+  completed: 'Completed',
 };
 
 export default en;

@@ -54,6 +54,14 @@ const fa = {
   noCollection: 'بدون مجموعه',
   noData: 'داده‌ای یافت نشد.',
   noDueDate: 'بدون تاریخ انجام',
+  allDone: 'همه انجام شده',
+  done: 'انجام شده',
+  dateCreation: 'تاریخ ایجاد',
+  addCollection: 'افزودن مجموعه',
+  cantAddCollection:
+    'شما به حداگثر تعداد مجموعه رسیده‌اید. قبل از ایجاد مجموعه بیشتر، یک مجموعه حذف نمایید.',
+  tasks: 'تسک‌ها',
+  completed: 'انجام شده',
 };
 
 export default fa;

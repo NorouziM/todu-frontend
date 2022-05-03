@@ -1,16 +1,19 @@
-import { Box, Flex, Icon, IconButton, Stack } from '@chakra-ui/react';
-import useCommonStyles from '@hooks/useCommonStyles';
-import useLocales from '@hooks/useLocales';
-import { LinkItemProps } from '@utils/interfaces';
+// next
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+// chakra
+import { Box, Flex, Icon } from '@chakra-ui/react';
+// icons
 import { MdCollections, MdDashboard } from 'react-icons/md';
-import AddTodoBtn from './AddTodoBtn';
+// components
+import AddTodoBtn from '@components/AddTodoBtn';
+// hooks
+import useCommonStyles from '@hooks/useCommonStyles';
+import useLocales from '@hooks/useLocales';
 
 const MobileNav = () => {
   const { trans } = useLocales();
-  const { lighterBg, textDark, text, navBg } = useCommonStyles();
+  const { textDark, text, navBg } = useCommonStyles();
   const { pathname } = useRouter();
 
   return (

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+// swr
+import { useSWRConfig } from 'swr';
 // chakra
 import { Badge, Checkbox, Stack, Text, useToast } from '@chakra-ui/react';
 // moment
@@ -7,18 +9,21 @@ import moment from 'jalali-moment';
 import { updateTodo } from 'network/todo';
 // utils
 import { ITodo } from '@utils/interfaces';
+import { mutatePartialKeys } from '@utils/helpers';
 // hooks
 import useCommonStyles from '@hooks/useCommonStyles';
 import useLocales from '@hooks/useLocales';
+import { useCollections } from '@hooks/useSWRActions';
 
 interface IProps {
   data: ITodo;
-  mutate: Function;
 }
 
-const Todo = ({ data, mutate }: IProps) => {
+const Todo = ({ data }: IProps) => {
   const { text, textLight } = useCommonStyles();
   const { trans, currentLang } = useLocales();
+  const { mutate, cache } = useSWRConfig();
+
   const [isLoading, setisLoading] = useState(false);
   const toast = useToast();
 
@@ -30,7 +35,9 @@ const Todo = ({ data, mutate }: IProps) => {
     );
     setisLoading(false);
     if (!error) {
-      mutate();
+      mutatePartialKeys('api/v1/todos', cache, mutate);
+      mutatePartialKeys('api/v1/collection', cache, mutate);
+
       toast({
         title: trans.operationnWasSuccessful,
         status: 'success',
@@ -107,7 +114,7 @@ const Todo = ({ data, mutate }: IProps) => {
   };
 
   return (
-    <Stack direction={'row'} mb={5} zIndex={1}>
+    <Stack direction={'row'} zIndex={1}>
       <Checkbox
         colorScheme={data.dueDate ? getColorScheme() : 'primary'}
         alignItems={'start'}
@@ -123,7 +130,7 @@ const Todo = ({ data, mutate }: IProps) => {
         opacity={data.isDone ? 0.7 : 1}
       >
         <Stack direction={'column'} spacing={1}>
-          <Stack direction={'row'} spacing={4}>
+          <Stack direction={'row'} spacing={4} flexWrap="wrap">
             <Text
               as={data.isDone ? 'del' : 'p'}
               color={text}

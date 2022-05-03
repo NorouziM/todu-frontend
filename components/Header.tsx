@@ -30,7 +30,6 @@ import {
   MoonIcon,
   SunIcon,
 } from '@chakra-ui/icons';
-
 // hooks
 import useLocales from '@hooks/useLocales';
 import useAuth from '@hooks/useAuth';
@@ -56,7 +55,7 @@ export default function Header({ isDashboard }: IProps) {
   const { trans, nextLang } = useLocales();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isAuthenticated, user, logout }: IAuthData = useAuth();
-  const { pathname, push } = useRouter();
+  const { pathname, push, asPath } = useRouter();
   const { text, bg, textDark, lighterBg } = useCommonStyles();
 
   const logoTextAlign = useBreakpointValue({ base: 'center', md: 'left' });
@@ -147,7 +146,7 @@ export default function Header({ isDashboard }: IProps) {
             >
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
-            <Link href={pathname} locale={nextLang} passHref>
+            <Link href={asPath} locale={nextLang} passHref>
               <Button fontSize={['sm', 'md']} variant="gray" bg={bg}>
                 <Text mt={2} color={text}>
                   {nextLang.toUpperCase()}

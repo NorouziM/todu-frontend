@@ -30,16 +30,15 @@ import MobileNav from './MobileNav';
 import { LinkItemProps } from '@utils/interfaces';
 
 export default function Sidebar({ children }: { children: ReactNode }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { pathname } = useRouter();
+  const { isOpen, onClose } = useDisclosure();
   const { bg } = useCommonStyles();
   const { trans } = useLocales();
   const LinkItems: Array<LinkItemProps> = [
-    { name: trans.dashboard, icon: MdDashboard, href: `dashboard` },
+    { name: trans.dashboard, icon: MdDashboard, href: `/dashboard` },
     {
       name: trans.collections,
       icon: MdCollections,
-      href: `collections`,
+      href: `/collections`,
     },
   ];
 
@@ -50,25 +49,11 @@ export default function Sidebar({ children }: { children: ReactNode }) {
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} LinkItems={LinkItems} />
-        </DrawerContent>
-      </Drawer>
       <Box ml={{ base: 0, md: 60 }}>
         <Header isDashboard={true} />
         <Box display={{ md: 'none' }}>
           <MobileNav />
         </Box>
-
         <Flex
           direction="column"
           maxW={{ xl: '1100px' }}

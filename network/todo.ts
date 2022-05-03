@@ -6,6 +6,11 @@ interface ITodoFormData {
   dueDate?: Date | string;
   collectionId: string;
 }
+/**
+ *
+ * @param data form data
+ * @returns error | null
+ */
 
 export const createTodo = async (data: ITodoFormData) => {
   try {
