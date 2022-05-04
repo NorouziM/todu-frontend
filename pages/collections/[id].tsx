@@ -1,3 +1,4 @@
+// next
 import { useRouter } from 'next/router';
 // chakra
 import { Box, Divider, Stack, Text } from '@chakra-ui/react';
@@ -14,6 +15,7 @@ import DashboardLayout from '@layouts/DashboardLayout';
 import Layout from '@layouts/Layout';
 // utils
 import { ICollectionSWR } from '@utils/interfaces';
+import DeleteCollectionBtn from '@components/DeleteCollectionBtn';
 
 const App = () => {
   const { query } = useRouter();
@@ -25,7 +27,7 @@ const App = () => {
 
   return (
     <Layout>
-      {collection && collection.data ? (
+      {collection && collection.data && collection.data.collection ? (
         <DashboardLayout
           title={
             collection.data.collection.title === 'noCollection'
@@ -33,6 +35,7 @@ const App = () => {
               : collection.data.collection.title
           }
           hasGreeting={false}
+          extraOption={<DeleteCollectionBtn id={query.id as string} />}
         >
           <Text fontSize={'lg'} fontWeight="600" color={text}>
             {trans.tasks} -{' '}

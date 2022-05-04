@@ -21,18 +21,19 @@ import {
   useBoolean,
   FormErrorMessage,
 } from '@chakra-ui/react';
-// hooks
-import useAuth from '@hooks/useAuth';
-import useLocales from '@hooks/useLocales';
 // form
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // components
 import Layout from '@layouts/Layout';
+// hooks
+import useAuth from '@hooks/useAuth';
+import useLocales from '@hooks/useLocales';
+import useCommonStyles from '@hooks/useCommonStyles';
 // guards
 import LoginGaurd from '@guards/LoginGuard';
 // utiils
-import { AFTER_LOGIN_ROUTE } from '@utils/paths';
+import { AFTER_LOGIN_ROUTE, PATH_AUTH } from '@utils/paths';
 import { IAuthData } from '@utils/interfaces';
 
 type FormData = {
@@ -50,6 +51,7 @@ const App = () => {
   const { push } = useRouter();
   const toast = useToast();
   const [isShowPass, setIsShowPass] = useBoolean();
+  const { textLight, text } = useCommonStyles();
 
   const ResgisterSchema = Yup.object().shape({
     firstName: Yup.string().required(trans.firstNameIsRequired),
@@ -66,6 +68,14 @@ const App = () => {
 
   const methods = useForm<FormData>({
     resolver: yupResolver(ResgisterSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      repeatPassword: '',
+      phoneNumber: '',
+    },
   });
 
   const {
@@ -111,12 +121,14 @@ const App = () => {
       <Layout varient="general">
         <Stack spacing={8} mx={'auto'} maxW={'xl'} py={12} px={6}>
           <Stack align={'center'} minW={['20rem', 'md']}>
-            <Heading fontSize={'4xl'}>{trans.signUpToAccount}</Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
+            <Heading fontSize={'4xl'} color={text}>
+              {trans.signUpToAccount}
+            </Heading>
+            <Text fontSize={'lg'} color={textLight}>
               {trans.loginToUse}
             </Text>
-            <Link href="/auth" passHref>
-              <ChakraLink>{trans.clickToSignUp}</ChakraLink>
+            <Link href={PATH_AUTH.login} passHref>
+              <ChakraLink>{trans.clickToSignIn}</ChakraLink>
             </Link>
           </Stack>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -265,8 +277,8 @@ const App = () => {
                     />
                   </FormControl>
                 </Stack>
-                <Stack spacing={10} mt={10}>
-                  <Button type="submit" isLoading={!!isSubmitting}>
+                <Stack spacing={10}>
+                  <Button type="submit" mt={8} isLoading={!!isSubmitting}>
                     {trans.signUp}
                   </Button>
                 </Stack>

@@ -1,11 +1,10 @@
 import { Context, createContext, useEffect, useReducer } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 import axiosInstance from '../utils/axios';
-import { toast } from '@chakra-ui/react';
-import _ from 'lodash';
 
 // ----------------------------------------------------------------------
 

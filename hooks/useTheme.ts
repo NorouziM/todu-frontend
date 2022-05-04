@@ -1,9 +1,7 @@
 import {
   extendTheme,
   type ThemeConfig,
-  type ChakraTheme,
   withDefaultColorScheme,
-  ComponentStyleConfig,
 } from '@chakra-ui/react';
 // components
 import { Box, Button, Input, Link } from '@components/ChakraComponents';
@@ -21,8 +19,9 @@ const useTheme = () => {
   const direction = currentLang === 'fa' ? 'rtl' : 'ltr';
 
   const fonts = {
-    body: 'Todu Yekan',
-    heading: 'Todu Yekan',
+    body: 'Todu-Yekan',
+    heading: 'Todu-Yekan',
+    h2: 'Todu-Yekan',
   };
 
   const colors = {

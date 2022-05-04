@@ -30,7 +30,8 @@ const MobileNav = () => {
         <Link href="dashboard" passHref>
           <Icon
             bgColor={'transparent'}
-            color={pathname.includes('dashboard') ? textDark : text}
+            color={text}
+            opacity={pathname.includes('dashboard') ? 1 : 0.6}
             w={7}
             h={7}
             as={MdDashboard}

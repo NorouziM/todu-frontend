@@ -1,6 +1,7 @@
 import React, { ReactNode, ReactText } from 'react';
 // next
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 // chakra
 import {
   Box,
@@ -8,8 +9,6 @@ import {
   Icon,
   useColorModeValue,
   Link as ChakraLink,
-  Drawer,
-  DrawerContent,
   Text,
   useDisclosure,
   BoxProps,
@@ -18,16 +17,16 @@ import {
 // icons
 import { MdDashboard, MdCollections } from 'react-icons/md';
 import { IconType } from 'react-icons';
+// components
+import Header from './Header';
+import MobileNav from './MobileNav';
+// utils
+import { LinkItemProps } from '@utils/interfaces';
+import { getGreetingText } from '@utils/helpers';
 // hooks
 import useCommonStyles from '@hooks/useCommonStyles';
 import useLocales from '@hooks/useLocales';
-// components
-import Header from './Header';
-import { useRouter } from 'next/router';
-import { getGreetingText } from '@utils/helpers';
 import useAuth from '@hooks/useAuth';
-import MobileNav from './MobileNav';
-import { LinkItemProps } from '@utils/interfaces';
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onClose } = useDisclosure();
@@ -59,7 +58,8 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           maxW={{ xl: '1100px' }}
           m="0 auto"
           px={{ base: 5, md: 10, xl: 12 }}
-          py={12}
+          py={{ base: 8, md: 12 }}
+          pb={{ base: 16, md: 12 }}
         >
           {children}
         </Flex>

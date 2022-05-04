@@ -10,8 +10,8 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const BackArrow = () => {
   const router = useRouter();
-  const { textDark, boxBg } = useCommonStyles();
-  const { trans, currentLang } = useLocales();
+  const { boxBg } = useCommonStyles();
+  const { currentLang } = useLocales();
 
   return (
     <Flex

@@ -6,7 +6,6 @@ import AuthGuard from '@guards/AuthGuard';
 // components
 import Header from '@components/Header';
 import Sidebar from '@components/Sidebar';
-import MobileNav from '@components/MobileNav';
 
 type TVarient = 'dashboard' | 'general';
 
@@ -24,7 +23,7 @@ const Layout = ({ children, varient = 'dashboard', ...props }: Props) => {
           py={5}
           flexDirection="column"
           width="100wh"
-          height="82vh"
+          height="full"
           justifyContent="center"
           alignItems="center"
         >

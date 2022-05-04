@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // chakra
 import {
   Box,
   Button,
   Divider,
-  Flex,
   FormControl,
   FormErrorMessage,
   IconButton,
@@ -18,31 +17,31 @@ import {
   Skeleton,
   Stack,
   Tooltip,
-  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 // yup
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+// swt
+import { useSWRConfig } from 'swr';
 // icons
 import { CgMathPlus } from 'react-icons/cg';
 // form
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+// components
+import CustomDatePicker from './CustomDatePicker';
+import Radio from './Radio';
 // hooks
 import useLocales from '@hooks/useLocales';
+// utils
 import { createTodo } from 'network/todo';
-import { type } from 'os';
 import {
   getErrorMessageList,
   mutatePartialKeys,
   useGetOptionsArray,
 } from '@utils/helpers';
-import fa from '@locales/fa';
-import Radio from './Radio';
+// hooks
 import { useCollections } from '@hooks/useSWRActions';
-import { useSWRConfig } from 'swr';
-import CustomDatePicker from './CustomDatePicker';
-import moment from 'jalali-moment';
 import useCommonStyles from '@hooks/useCommonStyles';
 
 type TFormData = {

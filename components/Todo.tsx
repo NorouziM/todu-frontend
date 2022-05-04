@@ -13,7 +13,6 @@ import { mutatePartialKeys } from '@utils/helpers';
 // hooks
 import useCommonStyles from '@hooks/useCommonStyles';
 import useLocales from '@hooks/useLocales';
-import { useCollections } from '@hooks/useSWRActions';
 
 interface IProps {
   data: ITodo;

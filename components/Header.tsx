@@ -22,6 +22,7 @@ import {
   MenuItem,
   MenuList,
   MenuDivider,
+  Divider,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -68,7 +69,12 @@ export default function Header({ isDashboard }: IProps) {
             href: '/dashboard',
           },
         ]
-      : []),
+      : [
+          {
+            label: trans.signUp,
+            href: '/auth/register',
+          },
+        ]),
   ];
 
   const handleClickLogOut = () => {
@@ -104,17 +110,25 @@ export default function Header({ isDashboard }: IProps) {
           />
         </Flex>
 
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: 'center', md: 'start' }}
+          align="center"
+        >
           {!isDashboard && (
-            <Text
-              /* @ts-ignore */
-              textAlign={logoTextAlign || 'center'}
-              fontFamily={'heading'}
-              fontSize={['xl', '2xl']}
-              color={textDark}
-            >
-              {trans.todu.toUpperCase()}
-            </Text>
+            <Link href={'/'} passHref>
+              <Text
+                /* @ts-ignore */
+                textAlign={logoTextAlign || 'center'}
+                cursor={'pointer'}
+                fontFamily={'heading'}
+                fontSize={['xl', '2xl']}
+                color={textDark}
+                mr={5}
+              >
+                {trans.todu.toUpperCase()}
+              </Text>
+            </Link>
           )}
           <Flex display={{ base: 'none', md: 'flex' }}>
             <DesktopNav navItems={NAV_ITEMS} isDashboard={!!isDashboard} />
@@ -133,10 +147,11 @@ export default function Header({ isDashboard }: IProps) {
             spacing={0}
             borderRadius={'lg'}
             bg={bg}
-            flex={{ base: 1 }}
             justify={'center'}
             alignItems={'center'}
             direction={'row'}
+            position={'relative'}
+            top={'-3px'}
           >
             <Button
               fontSize={['sm', 'md']}
@@ -198,8 +213,12 @@ export default function Header({ isDashboard }: IProps) {
                     {user.email}
                   </Text>
                 </Stack>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
+                <Link href={'/dashboard'} passHref>
+                  <MenuItem>{trans.dashboard}</MenuItem>
+                </Link>
+                <Link href={'/collections'} passHref>
+                  <MenuItem>{trans.collections}</MenuItem>
+                </Link>
                 <MenuDivider />
                 <MenuItem onClick={handleClickLogOut}>{trans.logout}</MenuItem>
               </MenuList>
@@ -227,17 +246,16 @@ const DesktopNav = ({ navItems, isDashboard }: IDesProps) => {
   return (
     <Stack
       direction={'row'}
-      alignItems={'center'}
+      alignItems={'baseline'}
       justifyContent={'space-between'}
     >
-      {!isDashboard &&
+      {/* {!isDashboard &&
         navItems.map((navItem) => (
           <>
             <Box key={navItem.label}>
               <Link href={navItem.href} passHref>
                 <ChakraLink
                   p={2}
-                  href={navItem.href ?? '#'}
                   fontSize={'sm'}
                   fontWeight={500}
                   color={linkColor}
@@ -251,7 +269,7 @@ const DesktopNav = ({ navItems, isDashboard }: IDesProps) => {
               </Link>
             </Box>
           </>
-        ))}
+        ))} */}
       {isDashboard && (
         <Box
           display={{ base: 'none', md: 'flex' }}
@@ -335,6 +353,7 @@ const MobileNavItem = ({ label, children, href }: INavItem) => {
               </Link>
             ))}
         </Stack>
+        <Divider />
       </Collapse>
     </Stack>
   );

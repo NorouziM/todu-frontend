@@ -21,6 +21,7 @@ const en = {
   signUp: 'Sign up',
   loginToUse: 'to enjoy Todu cool features',
   clickToSignUp: "Don't have an account?",
+  clickToSignIn: 'Already have an account?',
   show: 'Show',
   hide: 'Hide',
   homeTitle: 'Manage your tasks with ',
@@ -48,6 +49,7 @@ const en = {
   goToCollection: 'Go to collection',
   operationnWasSuccessful: 'Operation was successful',
   addTodo: 'Add todo',
+  loading: 'Loading...',
   close: 'Close',
   description: 'Content',
   cancel: 'Cancel',
@@ -62,6 +64,10 @@ const en = {
     'You have reached the maximum number of collections, Before adding a new one, you must delete one',
   tasks: 'Tasks',
   completed: 'Completed',
+  deleteCollectionWarning:
+    'Are you sure you want to delete this collection? All todos associated with it will be deleted',
+  delete: 'Delete',
+  deleteCollection: 'Delete collection',
 };
 
 export default en;

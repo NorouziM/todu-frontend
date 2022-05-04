@@ -22,5 +22,5 @@ export const PATH_AUTH = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   overview: path(ROOTS_DASHBOARD, '/overview'),
-  collections: path(ROOTS_DASHBOARD, '/collections'),
+  collections: '/collections',
 };

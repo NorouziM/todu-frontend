@@ -34,13 +34,14 @@ const Home: NextPage = () => {
           textAlign={'center'}
           align={'center'}
           spacing={{ base: 8, md: 10 }}
-          py={{ base: 20, md: 28 }}
+          py={{ base: 4 }}
         >
           <Heading
             fontWeight={600}
             mt={10}
             fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}
+            fontFamily="Todu-Yekan"
           >
             {trans.homeTitle}
             <Text as={'span'} color={'primary.main'}>
