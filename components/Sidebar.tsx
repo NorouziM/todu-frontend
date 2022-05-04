@@ -13,10 +13,12 @@ import {
   useDisclosure,
   BoxProps,
   FlexProps,
+  Stack,
 } from '@chakra-ui/react';
 // icons
 import { MdDashboard, MdCollections } from 'react-icons/md';
 import { IconType } from 'react-icons';
+import { FaGithub } from 'react-icons/fa';
 // components
 import Header from './Header';
 import MobileNav from './MobileNav';
@@ -53,6 +55,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
         <Box display={{ md: 'none' }}>
           <MobileNav />
         </Box>
+
         <Flex
           direction="column"
           maxW={{ xl: '1100px' }}
@@ -105,12 +108,26 @@ const SidebarContent = ({ LinkItems, onClose, ...rest }: SidebarProps) => {
         <Text color={text} fontSize="lg" mt={'1'}>{`${
           trans[getGreetingText()]
         } ${user.firstName}!`}</Text>
+        <Box
+          mt={4}
+          cursor="pointer"
+          _hover={{ color: 'primary.main' }}
+          transition="all 0.3s ease"
+        >
+          <ChakraLink
+            href={'https://github.com/NorouziM/todu-frontend'}
+            target="_blank"
+          >
+            <FaGithub size={20} />
+          </ChakraLink>
+        </Box>
       </Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
+      <Stack justify={'space-between'}></Stack>
     </Box>
   );
 };

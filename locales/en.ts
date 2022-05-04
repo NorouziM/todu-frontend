@@ -68,6 +68,7 @@ const en = {
     'Are you sure you want to delete this collection? All todos associated with it will be deleted',
   delete: 'Delete',
   deleteCollection: 'Delete collection',
+  footerCopyright: 'Mohammad Norouzi. All rights reserved',
 };
 
 export default en;

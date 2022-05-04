@@ -6,6 +6,7 @@ import AuthGuard from '@guards/AuthGuard';
 // components
 import Header from '@components/Header';
 import Sidebar from '@components/Sidebar';
+import Footer from '@components/Footer';
 
 type TVarient = 'dashboard' | 'general';
 
@@ -24,18 +25,21 @@ const Layout = ({ children, varient = 'dashboard', ...props }: Props) => {
           flexDirection="column"
           width="100wh"
           height="full"
+          minH={'90vh'}
           justifyContent="center"
           alignItems="center"
         >
           {children}
         </Flex>
+        <Footer />
       </Box>
     );
   else
     return (
       <AuthGuard>
-        <Box>
+        <Box minH={'95vh'}>
           <Sidebar>{children}</Sidebar>
+          <Footer />
         </Box>
       </AuthGuard>
     );
