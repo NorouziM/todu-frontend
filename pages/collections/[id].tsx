@@ -35,7 +35,11 @@ const App = () => {
               : collection.data.collection.title
           }
           hasGreeting={false}
-          extraOption={<DeleteCollectionBtn id={query.id as string} />}
+          extraOption={
+            collection.data.collection.title !== 'noCollection' && (
+              <DeleteCollectionBtn id={query.id as string} />
+            )
+          }
         >
           <Text fontSize={'lg'} fontWeight="600" color={text}>
             {trans.tasks} -{' '}

@@ -24,8 +24,8 @@ const DashboardLayout = ({
   children,
   extraOption,
 }: IProps) => {
-  const { textDark, boxBg } = useCommonStyles();
-  const { trans, currentLang } = useLocales();
+  const { textDark } = useCommonStyles();
+  const { trans } = useLocales();
   const { user }: IAuthData = useAuth();
 
   return (
